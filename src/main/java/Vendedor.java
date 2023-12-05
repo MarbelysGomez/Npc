@@ -1,39 +1,40 @@
 import java.util.List;
 
-public class Vendedor {
+public abstract class Vendedor {
     private String nombreVendedor;
     private List<Item> inventario;
     private String ciudad;
     private double impuesto;
     private double porcentajeDesgaste;
+    private int max_items;
 
-
-    public Vendedor(String nombreVendedor, List<Item> itemList, String ciudad, double impuesto, double porcentajeDesgaste) {
+    public Vendedor(String nombreVendedor, List<Item> itemList, String ciudad, double impuesto, double porcentajeDesgaste, int max_items) {
         this.nombreVendedor = nombreVendedor;
-        this.inventario = inventario;
+        this.inventario = itemList;
         this.ciudad = ciudad;
         this.impuesto = impuesto;
         this.porcentajeDesgaste = porcentajeDesgaste;
+        this.max_items = max_items;
     }
 
     public String getNombreVendedor() {
-        return nombreVendedor;
+        return this.nombreVendedor;
     }
 
     public List<Item> getInventario() {
-        return inventario;
+        return this.inventario;
     }
 
     public String getCiudad() {
-        return ciudad;
+        return this.ciudad;
     }
 
     public double getImpuesto() {
-        return impuesto;
+        return this.impuesto;
     }
 
     public double getPorcentajeDesgaste() {
-        return porcentajeDesgaste;
+        return this.porcentajeDesgaste;
     }
 
     public void setNombreVendedor(String nombreVendedor) {
@@ -55,17 +56,7 @@ public class Vendedor {
     public void setPorcentajeDesgaste(double porcentajeDesgaste) {
         this.porcentajeDesgaste = porcentajeDesgaste;
     }
-    public void añadirItem (Item item) {
-        this.inventario.add(item);
-        item.setPrice(item.getPrice() * (1 - porcentajeDesgaste));
-    }
-    public void venderItem(Comprador comprador, Item item) {
-        if(this.inventario.contains(item)) {
-            double precioImpuestos;
-            precioImpuestos = item.getPrice() * (1 + this.impuesto);
-            comprador.añadirItem(item, precioImpuestos);
-            this.inventario.remove(item);
-        }
-    }
+    public abstract void añadirItem (Item item);
+    public abstract void venderItem(Comprador comprador, Item item);
 
 }

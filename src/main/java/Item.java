@@ -27,7 +27,7 @@ public class Item {
         return porcentajeDesgaste;
     }
 
-    public void setNombreComprador(String nombreComprador) {
+    public void setNombre(String nombreComprador) {
         this.nombreComprador = nombreComprador;
     }
 

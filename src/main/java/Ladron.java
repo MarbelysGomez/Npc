@@ -1,57 +1,29 @@
 import java.util.List;
 
 public class Ladron extends Vendedor {
-    public Ladron(String nombreComprador, List<Item> inventario, String ciudad, double impuesto, double porcentajeDesgaste) {
-        super(nombreComprador, inventario, ciudad, 0, 0.25);
-    }
+    private static final int MAX_ITEMS = 3;
+    private static final double IMPUESTO = 0.0;
+    private static final double PORCENTAJE_DESGASTE = 0.25;
 
-    @Override
-    public String getNombreComprador() {
-        return super.getNombreComprador();
+    public Ladron(String nombreVendedor, List<Item> itemList, String ciudad) {
+        super(nombreVendedor, itemList, ciudad, IMPUESTO, PORCENTAJE_DESGASTE, MAX_ITEMS);
     }
-
     @Override
-    public List<Item> getInventario() {
-        return super.getInventario();
+    public void añadirItem(Item item) {
+        if (this.getInventario().size() < MAX_ITEMS){
+            this.getInventario().add(item);
+            item.setPrice(item.getPrice() * (1 - PORCENTAJE_DESGASTE));
+        } else {
+            throw new IllegalArgumentException("Inventario lleno! El vendedor no puede comprar el artículo.");
+        }
     }
-
     @Override
-    public String getCiudad() {
-        return super.getCiudad();
-    }
-
-    @Override
-    public double getImpuesto() {
-        return super.getImpuesto();
-    }
-
-    @Override
-    public double getPorcentajeDesgaste() {
-        return super.getPorcentajeDesgaste();
-    }
-
-    @Override
-    public void setNombreComprador(String nombreComprador) {
-        super.setNombreComprador(nombreComprador);
-    }
-
-    @Override
-    public void setInventario(List<Item> inventario) {
-        super.setInventario(inventario);
-    }
-
-    @Override
-    public void setCiudad(String ciudad) {
-        super.setCiudad(ciudad);
-    }
-
-    @Override
-    public void setImpuesto(double impuesto) {
-        super.setImpuesto(impuesto);
-    }
-
-    @Override
-    public void setPorcentajeDesgaste(double porcentajeDesgaste) {
-        super.setPorcentajeDesgaste(porcentajeDesgaste);
+    public void venderItem(Comprador comprador, Item item) {
+        if (this.getInventario().contains(item)) {
+            double precioImpuestos;
+            precioImpuestos= item.getPrice() * (1 + IMPUESTO);
+            comprador.añadirItem(item, precioImpuestos);
+            this.getInventario().remove(item);
+        }
     }
 }
